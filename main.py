@@ -29,7 +29,7 @@ def get_insight_params(addr, prt):
         'SOAPACTION': '"urn:Belkin:service:insight:1#GetInsightParams"'
     }
 
-    response = requests.request("POST", url, data=payload, headers=headers)
+    response = requests.request("POST", url, data=payload, headers=headers, timeout=(1, 1))
 
     if not response.ok:
         print("Response was not 200 OK: " + response.status_code)
@@ -89,7 +89,7 @@ def get_extra_meta_data(addr, prt):
         'SOAPACTION': '"urn:Belkin:service:metainfo:1#GetExtMetaInfo"'
     }
 
-    response = requests.request("POST", url, data=payload, headers=headers)
+    response = requests.request("POST", url, data=payload, headers=headers, timeout=(1, 1))
 
     if not response.ok:
         print("Response was not 200 OK: " + response.status_code)
