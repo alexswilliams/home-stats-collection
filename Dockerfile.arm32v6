@@ -1,8 +1,9 @@
 FROM arm32v6/python:3.7-alpine
+RUN apk add --no-cache curl
 
 WORKDIR /usr/src/app
 COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt && apt-get update && apt-get install curl -y && rm -rf /var/lib/apt/lists/*
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY main.py entry.sh ./
 
