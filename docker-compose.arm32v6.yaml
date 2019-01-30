@@ -1,14 +1,11 @@
-version: '3.7'
+version: '2'
 services:
   grafana:
     depends_on:
       - prometheus
     image: alexswilliams/arm32v6-grafana:5.4.3
     volumes:
-      - type: volume
-        source: grafana-volume
-        target: /var/lib/grafana
-        consistency: consistent
+      - "grafana-volume:/var/lib/grafana"
     environment:
       GF_SECURITY_ADMIN_PASSWORD: "secret"
     expose:
@@ -21,10 +18,7 @@ services:
     image: alexswilliams/arm32v6-prometheus:2.6.1
     volumes:
       - "./config/prometheus.yml:/etc/prometheus/prometheus.yml"
-      - type: volume
-        source: prometheus-volume
-        target: /etc/prometheus/data
-        consistency: consistent
+      - "prometheus-volume:/etc/prometheus/data"
     expose:
       - "9090"
     ports:
