@@ -1,0 +1,12 @@
+FROM arm32v6/golang:1.12-alpine as build
+WORKDIR /go/src/app
+COPY main.go ./
+RUN go build -o scraper -ldflags="-s -w" main.go
+
+FROM arm32v6/alpine:3.9
+RUN apk add --no-cache curl
+WORKDIR /usr/src/app
+COPY --from=build /go/src/app/scraper ./
+COPY entry.sh ./
+
+CMD [ "sh", "./entry.sh" ]

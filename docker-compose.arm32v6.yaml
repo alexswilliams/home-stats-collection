@@ -1,5 +1,6 @@
 version: '2'
 services:
+
   grafana:
     depends_on:
       - prometheus
@@ -12,6 +13,7 @@ services:
       - "3000"
     ports:
       - "3000:3000"
+
   prometheus:
     depends_on:
       - prom-push-gw
@@ -23,22 +25,34 @@ services:
       - "9090"
     ports:
       - "9090:9090"
+
   prom-push-gw:
     image: alexswilliams/arm32v6-prometheus-push-gateway:0.7.0
     expose:
       - "9091"
     ports:
       - "9091:9091"
-  scraper:
+
+#  wemo-scraper:
+#    depends_on:
+#      - prom-push-gw
+#    build:
+#      context: ./wemo-insight-client
+#      dockerfile: ./wemo-insight-client/Dockerfile.arm32v6
+#    environment:
+#      WEMO_POLL_TIME: "1"
+#      WEMO_ADDRESS: "192.168.1.25"
+#      WEMO_PORT: "49153"
+
+  tplink-scraper:
     depends_on:
       - prom-push-gw
     build:
-      context: .
-      dockerfile: Dockerfile.arm32v6
+      context: ./tplink-hs110-client
+      dockerfile: ./tplink-hs110-client/Dockerfile.arm32v6
     environment:
-      WEMO_POLL_TIME: "1"
-      WEMO_ADDRESS: "192.168.1.25"
-      WEMO_PORT: "49153"
+      TPLINK_POLL_TIME: "1"
+      TPLINK_ADDRESS: "192.168.1.30"
 
 volumes:
   grafana-volume:
