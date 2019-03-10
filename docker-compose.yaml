@@ -44,7 +44,7 @@ services:
   #      - prom-push-gw
   #    build:
   #      context: ./wemo-insight-client
-  #      dockerfile: ./wemo-insight-client/Dockerfile.arm32v6
+  #      dockerfile: Dockerfile
   #    environment:
   #      WEMO_POLL_TIME: "1"
   #      WEMO_ADDRESS: "192.168.1.25"
@@ -55,7 +55,7 @@ services:
       - prom-push-gw
     build:
       context: ./tplink-hs110-client
-      dockerfile: ./tplink-hs110-client/Dockerfile.arm32v6
+      dockerfile: Dockerfile
     environment:
       TPLINK_POLL_TIME: "1"
       TPLINK_ADDRESS: "192.168.1.30"
