@@ -1,12 +1,10 @@
 FROM golang:1.12-alpine as build
 WORKDIR /go/src/app
-COPY main.go ./
-RUN go build -o scraper -ldflags="-s -w" main.go
+COPY src ./
+RUN CGO_ENABLED=0 go build -o scraper -ldflags="-s -w" -tags netgo -a ./main
 
-FROM alpine:3.9
-RUN apk add --no-cache curl
-WORKDIR /usr/src/app
+FROM scratch
+WORKDIR /app
 COPY --from=build /go/src/app/scraper ./
-COPY entry.sh ./
 
-CMD [ "sh", "./entry.sh" ]
+CMD [ "./scraper" ]

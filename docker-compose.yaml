@@ -57,8 +57,9 @@ services:
       context: ./tplink-hs110-client
       dockerfile: Dockerfile
     environment:
-      TPLINK_POLL_TIME: "1"
-      TPLINK_ADDRESS: "192.168.1.30"
+      POLL_TIME_SECONDS: "1"
+      TPLINK_HOST: "192.168.1.30"
+      PUSH_GW_URL: "http://prom-push-gw:9091/metrics/job/tplink-scraper-1"
 
 volumes:
   grafana-volume:
