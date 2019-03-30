@@ -4,7 +4,7 @@ services:
   grafana:
     depends_on:
       - prometheus
-    image: alexswilliams/arm32v6-grafana:5.4.3
+    image: alexswilliams/arm32v6-grafana:6.0.2
     volumes:
       - "grafana-volume:/var/lib/grafana"
     environment:
@@ -17,10 +17,13 @@ services:
   prometheus:
     depends_on:
       - prom-push-gw
-    image: alexswilliams/arm32v6-prometheus:2.6.1
+    image: alexswilliams/arm32v6-prometheus:2.8.1
     volumes:
       - "./config/prometheus.yml:/etc/prometheus/prometheus.yml"
       - "prometheus-volume:/etc/prometheus/data"
+    environment:
+      PROM_STORAGE_TSDB_RETENTION_TIME: "1y"
+      PROM_STORAGE_TSDB_RETENTION_SIZE: "5GB"
     expose:
       - "9090"
     ports:
@@ -33,16 +36,16 @@ services:
     ports:
       - "9091:9091"
 
-#  wemo-scraper:
-#    depends_on:
-#      - prom-push-gw
-#    build:
-#      context: ./wemo-insight-client
-#      dockerfile: Dockerfile.arm32v6
-#    environment:
-#      WEMO_POLL_TIME: "1"
-#      WEMO_ADDRESS: "192.168.1.25"
-#      WEMO_PORT: "49153"
+  #  wemo-scraper:
+  #    depends_on:
+  #      - prom-push-gw
+  #    build:
+  #      context: ./wemo-insight-client
+  #      dockerfile: Dockerfile.arm32v6
+  #    environment:
+  #      WEMO_POLL_TIME: "5"
+  #      WEMO_ADDRESS: "192.168.1.25"
+  #      WEMO_PORT: "49153"
 
   tplink-scraper:
     depends_on:
@@ -51,7 +54,7 @@ services:
       context: ./tplink-hs110-client
       dockerfile: Dockerfile.arm32v6
     environment:
-      POLL_TIME_SECONDS: "1"
+      POLL_TIME_SECONDS: "5"
       TPLINK_HOST: "192.168.1.30"
       PUSH_GW_URL: "http://prom-push-gw:9091/metrics/job/tplink-scraper-1"
 

@@ -4,7 +4,7 @@ services:
   grafana:
     depends_on:
       - prometheus
-    image: grafana/grafana:5.4.3
+    image: grafana/grafana:6.0.2
     volumes:
       - type: volume
         source: grafana-volume
@@ -20,13 +20,11 @@ services:
   prometheus:
     depends_on:
       - prom-push-gw
-    image: prom/prometheus:v2.6.1
+    image: prom/prometheus:v2.8.1
     volumes:
       - "./config/prometheus.yml:/etc/prometheus/prometheus.yml"
-      - type: volume
-        source: prometheus-volume
-        target: /etc/prometheus/data
-        consistency: consistent
+      - "prometheus-volume:/etc/prometheus/data"
+    command: [ "--web.console.templates=/etc/prometheus/consoles", "--web.console.libraries=/etc/prometheus/console-libraries", "--config.file=/etc/prometheus/prometheus.yml", "--storage.tsdb.retention.time=1y", "--storage.tsdb.retention.size=5GB", "--web.enable-admin-api" ]
     expose:
       - "9090"
     ports:
@@ -46,7 +44,7 @@ services:
   #      context: ./wemo-insight-client
   #      dockerfile: Dockerfile
   #    environment:
-  #      WEMO_POLL_TIME: "1"
+  #      WEMO_POLL_TIME: "5"
   #      WEMO_ADDRESS: "192.168.1.25"
   #      WEMO_PORT: "49153"
 
@@ -57,7 +55,7 @@ services:
       context: ./tplink-hs110-client
       dockerfile: Dockerfile
     environment:
-      POLL_TIME_SECONDS: "1"
+      POLL_TIME_SECONDS: "5"
       TPLINK_HOST: "192.168.1.30"
       PUSH_GW_URL: "http://prom-push-gw:9091/metrics/job/tplink-scraper-1"
 
