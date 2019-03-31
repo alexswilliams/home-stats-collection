@@ -17,6 +17,7 @@ services:
   prometheus:
     depends_on:
       - prom-push-gw
+      - prom-node-exporter
     image: alexswilliams/arm32v6-prometheus:2.8.1
     volumes:
       - "./config/prometheus.yml:/etc/prometheus/prometheus.yml"
