@@ -36,6 +36,24 @@ services:
     ports:
       - "9091:9091"
 
+  node-exporter:
+    image: alexswilliams/arm32v6-prometheus-node-exporter:0.17.0
+    user: root
+    privileged: true
+    volumes:
+      - "/proc:/host/proc:ro"
+      - "/:/host/root:ro"
+      - "/sys:/host/sys:ro"
+    environment:
+      NODE_EXP_PATH_PROCFS: /host/proc
+      NODE_EXP_PATH_ROOTFS: /host/root
+      NODE_EXP_PATH_SYSFS: /host/sys
+      NODE_EXP_COLLECTOR_FILESYSTEM_IGNORED_MOUNT_POINTS: ^/(sys|proc|dev|host|etc)($$|/)
+    expose:
+      - "9100"
+    ports:
+      - "9100:9100"
+
   #  wemo-scraper:
   #    depends_on:
   #      - prom-push-gw
