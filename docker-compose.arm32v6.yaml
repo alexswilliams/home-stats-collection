@@ -36,7 +36,7 @@ services:
     ports:
       - "9091:9091"
 
-  node-exporter:
+  prom-node-exporter:
     image: alexswilliams/arm32v6-prometheus-node-exporter:0.17.0
     user: root
     privileged: true
