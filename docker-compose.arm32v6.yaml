@@ -5,7 +5,7 @@ services:
     depends_on:
       - prom-push-gw
       - prom-node-exporter
-    image: alexswilliams/arm32v6-prometheus:2.8.1
+    image: alexswilliams/arm32v6-prometheus:2.9.2
     volumes:
       - "./config/prometheus.yml:/etc/prometheus/prometheus.yml"
       - "prometheus-volume:/etc/prometheus/data"
@@ -53,6 +53,19 @@ services:
       POLL_TIME_SECONDS: "5"
       TPLINK_HOST: "192.168.1.30"
       PUSH_GW_URL: "http://prom-push-gw:9091/metrics/job/tplink-scraper-1"
+
+  tplink-scraper-c:
+    depends_on:
+      - prom-push-gw
+    build:
+      context: ./tplink-hs110-client-c
+      dockerfile: Dockerfile.arm32v6
+    environment:
+      POLL_TIME_MILLIS: "5000"
+      TPLINK_HOST: "192.168.1.30"
+      PUSH_GW_HOST: "prom-push-gw"
+      PUSH_GW_PORT: "9091"
+      PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-test"
 
 volumes:
   prometheus-volume:
