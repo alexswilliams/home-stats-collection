@@ -47,8 +47,7 @@ var commands = map[string]map[string]string{
 		"get_sysinfo": `{"system":{"get_sysinfo":null}}`,
 	},
 	"emeter": {
-		"get_realtime":    `{"emeter":{"get_realtime":{}}}`,
-		"get_vgain_igain": `{"emeter":{"get_vgain_igain":{}}}`,
+		"get_realtime": `{"emeter":{"get_realtime":{}}}`,
 	},
 }
 

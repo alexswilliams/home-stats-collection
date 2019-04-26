@@ -1,19 +1,6 @@
 version: '2'
 services:
 
-  grafana:
-    depends_on:
-      - prometheus
-    image: alexswilliams/arm32v6-grafana:6.0.2
-    volumes:
-      - "grafana-volume:/var/lib/grafana"
-    environment:
-      GF_SECURITY_ADMIN_PASSWORD: "secret"
-    expose:
-      - "3000"
-    ports:
-      - "3000:3000"
-
   prometheus:
     depends_on:
       - prom-push-gw
@@ -37,34 +24,24 @@ services:
     ports:
       - "9091:9091"
 
-  prom-node-exporter:
-    image: alexswilliams/arm32v6-prometheus-node-exporter:0.17.0
-    user: root
-    privileged: true
-    volumes:
-      - "/proc:/host/proc:ro"
-      - "/:/host/root:ro"
-      - "/sys:/host/sys:ro"
-    environment:
-      NODE_EXP_PATH_PROCFS: /host/proc
-      NODE_EXP_PATH_ROOTFS: /host/root
-      NODE_EXP_PATH_SYSFS: /host/sys
-      NODE_EXP_COLLECTOR_FILESYSTEM_IGNORED_MOUNT_POINTS: ^/(sys|proc|dev|host|etc)($$|/)
-    expose:
-      - "9100"
-    ports:
-      - "9100:9100"
-
-  #  wemo-scraper:
-  #    depends_on:
-  #      - prom-push-gw
-  #    build:
-  #      context: ./wemo-insight-client
-  #      dockerfile: Dockerfile.arm32v6
+  #  prom-node-exporter:
+  #    image: alexswilliams/arm32v6-prometheus-node-exporter:0.17.0
+  #    user: root
+  #    privileged: true
+  #    volumes:
+  #      - "/proc:/host/proc:ro"
+  #      - "/:/host/root:ro"
+  #      - "/sys:/host/sys:ro"
   #    environment:
-  #      WEMO_POLL_TIME: "5"
-  #      WEMO_ADDRESS: "192.168.1.25"
-  #      WEMO_PORT: "49153"
+  #      NODE_EXP_PATH_PROCFS: /host/proc
+  #      NODE_EXP_PATH_ROOTFS: /host/root
+  #      NODE_EXP_PATH_SYSFS: /host/sys
+  #      NODE_EXP_COLLECTOR_FILESYSTEM_IGNORED_MOUNT_POINTS: ^/(sys|proc|dev|host|etc|var/lib/docker.+)($$|/)
+  #      NODE_EXP_WEB_LISTEN_ADDRESS: ":9101"
+  #    expose:
+  #      - "9101"
+  #    ports:
+  #      - "9101:9101"
 
   tplink-scraper:
     depends_on:
@@ -78,6 +55,5 @@ services:
       PUSH_GW_URL: "http://prom-push-gw:9091/metrics/job/tplink-scraper-1"
 
 volumes:
-  grafana-volume:
   prometheus-volume:
 
