@@ -1,0 +1,31 @@
+FROM gcc:8.3.0 as build
+RUN apt-get update && apt-get install -y cmake wget tar
+
+RUN mkdir -p /build/cjson && \
+    cd /build/cjson && \
+    wget https://github.com/DaveGamble/cJSON/archive/v1.7.11.tar.gz -O cjson.tar.gz && \
+    tar xf cjson.tar.gz && \
+    cd cJSON-1.7.11 && \
+    mkdir cmake-build && \
+    cd cmake-build && \
+    cmake -DBUILD_SHARED_AND_STATIC_LIBS=On .. && \
+    make VERBOSE=1 && \
+    make install
+
+COPY . /build/app
+RUN cd /build/app && \
+    mkdir cmake-build && \
+    cd cmake-build && \
+    cmake -v -DBUILD_STATIC=On .. && \
+    make VERBOSE=1 && \
+    strip tplink-hs110-client && \
+    ls -lah tplink-hs110-client && \
+    file tplink-hs110-client && \
+    ldd ./tplink-hs110-client || true
+
+
+FROM scratch
+WORKDIR /app
+COPY --from=build /build/app/cmake-build/tplink-hs110-client ./
+
+CMD [ "/app/tplink-hs110-client" ]
