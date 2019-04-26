@@ -27,7 +27,7 @@ void communicate_with_push_gateway(const struct config *const config, const char
         return;
     }
     if ((size_t) header_written != header_size) {
-        fprintf(stderr, "Couldn't write full header to push gateway: wrote %li of %lu.\n", header_written, header_size);
+        fprintf(stderr, "Couldn't write full header to push gateway: wrote %zd of %zu.\n", header_written, header_size);
         fflush(stderr);
         close_connection(sck);
         return;
@@ -42,7 +42,7 @@ void communicate_with_push_gateway(const struct config *const config, const char
             return;
         }
         if ((size_t) body_written != body_size) {
-            fprintf(stderr, "Couldn't write full body to push gateway: wrote %li of %lu.\n", body_written, body_size);
+            fprintf(stderr, "Couldn't write full body to push gateway: wrote %zd of %zu.\n", body_written, body_size);
             fflush(stderr);
             close_connection(sck);
             return;
@@ -63,7 +63,7 @@ void communicate_with_push_gateway(const struct config *const config, const char
     read_buffer[bytes_read] = '\0';
 
     if (bytes_read < 10) {
-        fprintf(stderr, "Invalid response received from push gateway - read %lu bytes: %s", bytes_read, read_buffer);
+        fprintf(stderr, "Invalid response received from push gateway - read %zu bytes: %s", bytes_read, read_buffer);
         fflush(stderr);
         return;
     }
@@ -110,7 +110,7 @@ void register_new_metrics(const struct config *const config, const char *const t
     snprintf(header_buffer, HEADER_BUFFER_SIZE,
              "POST %s HTTP/1.0\r\n"
              "Host: %s\r\n"
-             "Content-Length: %lu\r\n"
+             "Content-Length: %zu\r\n"
              "Content-Type: text/plain\r\n"
              "\r\n",
              config->push_gateway_endpoint, config->push_gateway_host, body_size

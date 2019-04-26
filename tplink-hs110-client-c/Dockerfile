@@ -1,11 +1,13 @@
-FROM gcc:8.3.0 as build
-RUN apt-get update && apt-get install -y cmake wget tar
+FROM alpine:3.9.3 as build
+RUN apk --no-cache add build-base cmake wget tar binutils
+
+ARG CJSON_VERSION=1.7.11
 
 RUN mkdir -p /build/cjson && \
     cd /build/cjson && \
-    wget https://github.com/DaveGamble/cJSON/archive/v1.7.11.tar.gz -O cjson.tar.gz && \
+    wget https://github.com/DaveGamble/cJSON/archive/v${CJSON_VERSION}.tar.gz -O cjson.tar.gz && \
     tar xf cjson.tar.gz && \
-    cd cJSON-1.7.11 && \
+    cd cJSON-${CJSON_VERSION} && \
     mkdir cmake-build && \
     cd cmake-build && \
     cmake -DBUILD_SHARED_AND_STATIC_LIBS=On .. && \

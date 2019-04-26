@@ -34,7 +34,7 @@ int query_device(const int connection, const char *const request, cJSON **out) {
         return 1;
     }
     if ((size_t) bytes_written != scrambled_length) {
-        fprintf(stderr, "Couldn't write all bytes to device: wrote %li of %lu.\n", bytes_written, scrambled_length);
+        fprintf(stderr, "Couldn't write all bytes to device: wrote %zd of %zu.\n", bytes_written, scrambled_length);
         fflush(stderr);
         return 1;
     }
@@ -78,7 +78,7 @@ int scramble(const char *const input, unsigned char *const output,
     const size_t len = strlen(input);
     *output_length = len + 4;
     if (*output_length > buffer_size) {
-        fprintf(stderr, "Message too long for buffer; given %lu, but needed %lu.\n", buffer_size, *output_length);
+        fprintf(stderr, "Message too long for buffer; given %zu, but needed %zu.\n", buffer_size, *output_length);
         fflush(stderr);
         return 1;
     }
@@ -96,14 +96,14 @@ int unscramble(const unsigned char *const input, const size_t input_length, char
                const size_t buffer_size, size_t *const output_length) {
 
     if (input_length < 4) {
-        fprintf(stderr, "Message too short: received %lu bytes.\n", input_length);
+        fprintf(stderr, "Message too short: received %zu bytes.\n", input_length);
         fflush(stderr);
         return 1;
     }
 
     *output_length = input[3] + (input[2] << 8u) + (input[1] << 16u) + (input[0] << 24u);
     if (*output_length > buffer_size) {
-        fprintf(stderr, "Message too long for buffer; given %lu, but needed %lu.\n", buffer_size, *output_length);
+        fprintf(stderr, "Message too long for buffer; given %zu, but needed %zu.\n", buffer_size, *output_length);
         fflush(stderr);
         return 1;
     }
