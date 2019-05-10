@@ -16,4 +16,4 @@ scrape_configs:
     metrics_path: /metrics
     static_configs:
       - targets:
-          - prom-node-exporter:9100
+          - 172.19.0.1:9100
