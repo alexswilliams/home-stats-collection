@@ -1,0 +1,5 @@
+googlezip.net:53 {
+  file /db/googlezip.net.db
+  log
+  errors
+}

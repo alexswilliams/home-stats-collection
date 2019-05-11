@@ -1,6 +1,18 @@
 version: '2'
 services:
 
+  coredns:
+    image: coredns/coredns:1.5.0
+    restart: always
+    volumes:
+      - "./config/coredns/:/db/"
+    command: "-conf /db/Corefile"
+    expose:
+      - "53/udp"
+    ports:
+      - "53:53/udp"
+
+
 
   nginx:
     image: arm32v6/nginx:1.16.0-alpine
