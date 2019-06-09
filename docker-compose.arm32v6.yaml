@@ -15,7 +15,7 @@ services:
 
 
   nginx:
-    image: arm32v6/nginx:1.16.0-alpine
+    image: arm32v6/nginx:1.17.0-alpine
     restart: always
     volumes:
       - "./config/nginx/403.html:/usr/share/nginx/html/403.html"
@@ -31,7 +31,7 @@ services:
     depends_on:
       - prom-push-gw
       # - prom-node-exporter
-    image: alexswilliams/arm32v6-prometheus:2.9.2-alpine-3.9.4
+    image: alexswilliams/arm32v6-prometheus:2.10.0-alpine-3.9.4
     restart: always
     volumes:
       - "./config/prometheus.yml:/etc/prometheus/prometheus.yml"
@@ -53,7 +53,7 @@ services:
       - "9091:9091"
 
   #  prom-node-exporter:
-  #    image: alexswilliams/arm32v6-prometheus-node-exporter:0.18.0-alpine-3.9.4
+  #    image: alexswilliams/arm32v6-prometheus-node-exporter:0.18.1-alpine-3.9.4
   #    restart: always
   #    user: root
   #    privileged: true
