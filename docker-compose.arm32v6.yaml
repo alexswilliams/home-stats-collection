@@ -52,25 +52,26 @@ services:
     ports:
       - "9091:9091"
 
-  #  prom-node-exporter:
-  #    image: alexswilliams/arm32v6-prometheus-node-exporter:0.18.1-alpine-3.9.4
-  #    restart: always
-  #    user: root
-  #    privileged: true
-  #    volumes:
-  #      - "/proc:/host/proc:ro"
-  #      - "/:/host/root:ro"
-  #      - "/sys:/host/sys:ro"
-  #    environment:
-  #      NODE_EXP_PATH_PROCFS: /host/proc
-  #      NODE_EXP_PATH_ROOTFS: /host/root
-  #      NODE_EXP_PATH_SYSFS: /host/sys
-  #      NODE_EXP_COLLECTOR_FILESYSTEM_IGNORED_MOUNT_POINTS: ^/(sys|proc|dev|host|etc|var/lib/docker.+)($$|/)
-  #      NODE_EXP_WEB_LISTEN_ADDRESS: ":9101"
-  #    expose:
-  #      - "9101"
-  #    ports:
-  #      - "9101:9101"
+  prom-node-exporter:
+    image: alexswilliams/arm32v6-prometheus-node-exporter:0.18.1-alpine-3.9.4
+    restart: always
+    user: root
+    privileged: true
+    read_only: true
+    volumes:
+      - "/proc:/host/procfs:ro"
+      - "/:/host/rootfs:ro"
+      - "/sys:/host/sysfs:ro"
+    environment:
+      NODE_EXP_PATH_PROCFS: /host/procfs
+      NODE_EXP_PATH_ROOTFS: /host/rootfs
+      NODE_EXP_PATH_SYSFS: /host/sysfs
+      NODE_EXP_COLLECTOR_FILESYSTEM_IGNORED_MOUNT_POINTS: ^/(sys|proc|dev|host|etc|var/lib/docker.+)($$|/)
+      NODE_EXP_WEB_LISTEN_ADDRESS: ":9100"
+    expose:
+      - "9100"
+    ports:
+      - "9100:9100"
 
   #  tplink-scraper:
   #    depends_on:
