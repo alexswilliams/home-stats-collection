@@ -1,5 +1,6 @@
 googlezip.net:53 {
   file /db/googlezip.net.db
+  file /db/mozilla.cloudflare-dns.com.db
   log
   errors
 }
