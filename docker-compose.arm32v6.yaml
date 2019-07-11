@@ -1,50 +1,48 @@
 version: '2'
 services:
 
-#  coredns:
-#    image: coredns/coredns:1.5.2
-#    restart: always
-#    volumes:
-#      - "./config/coredns/:/db/"
-#    command: "-conf /db/Corefile"
-#    expose:
-#      - "53/udp"
-#    ports:
-#      - "53:53/udp"
-#
-
-  pihole:
-    container_name: pihole
-    image: pihole/pihole:latest
-    ports:
-      - "53:53/tcp"
-      - "53:53/udp"
-      - "67:67/udp"
-      - "80:80/tcp"
-      - "443:443/tcp"
-    environment:
-      TZ: 'Europe/London'
-      WEBPASSWORD: 'password'
-    volumes:
-      - './etc-pihole/:/etc/pihole/'
-      - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
-    dns:
-      - 127.0.0.1
-      - 1.1.1.1
+  coredns:
+    image: coredns/coredns:1.5.2
     restart: always
+    volumes:
+      - "./config/coredns/:/db/"
+    command: "-conf /db/Corefile"
+    expose:
+      - "53/udp"
+    ports:
+      - "53:53/udp"
+
+  nginx:
+    image: arm32v6/nginx:1.17.1-alpine
+    restart: always
+    volumes:
+      - "./config/nginx/403.html:/usr/share/nginx/html/403.html"
+      - "./config/nginx/nginx.conf:/etc/nginx/nginx.conf"
+    expose:
+      - "80"
+    ports:
+      - "80:80"
 
 
-#  nginx:
-#    image: arm32v6/nginx:1.17.1-alpine
-#    restart: always
-#    volumes:
-#      - "./config/nginx/403.html:/usr/share/nginx/html/403.html"
-#      - "./config/nginx/nginx.conf:/etc/nginx/nginx.conf"
-#    expose:
-#      - "80"
-#    ports:
-#      - "80:80"
-#
+  #  pihole:
+  #    container_name: pihole
+  #    image: pihole/pihole:latest
+  #    ports:
+  #      - "53:53/tcp"
+  #      - "53:53/udp"
+  #      - "67:67/udp"
+  #      - "80:80/tcp"
+  #      - "443:443/tcp"
+  #    environment:
+  #      TZ: 'Europe/London'
+  #      WEBPASSWORD: 'password'
+  #    volumes:
+  #      - './etc-pihole/:/etc/pihole/'
+  #      - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
+  #    dns:
+  #      - 127.0.0.1
+  #      - 1.1.1.1
+  #    restart: always
 
 
   prometheus:
