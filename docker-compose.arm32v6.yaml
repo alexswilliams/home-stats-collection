@@ -2,7 +2,7 @@ version: '2'
 services:
 
   coredns:
-    image: coredns/coredns:1.5.2
+    image: coredns/coredns:1.6.2
     restart: always
     volumes:
       - "./config/coredns/:/db/"
@@ -13,7 +13,7 @@ services:
       - "53:53/udp"
 
   nginx:
-    image: arm32v6/nginx:1.17.1-alpine
+    image: arm32v6/nginx:1.17.3-alpine
     restart: always
     volumes:
       - "./config/nginx/403.html:/usr/share/nginx/html/403.html"
@@ -24,32 +24,11 @@ services:
       - "80:80"
 
 
-  #  pihole:
-  #    container_name: pihole
-  #    image: pihole/pihole:latest
-  #    ports:
-  #      - "53:53/tcp"
-  #      - "53:53/udp"
-  #      - "67:67/udp"
-  #      - "80:80/tcp"
-  #      - "443:443/tcp"
-  #    environment:
-  #      TZ: 'Europe/London'
-  #      WEBPASSWORD: 'password'
-  #    volumes:
-  #      - './etc-pihole/:/etc/pihole/'
-  #      - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
-  #    dns:
-  #      - 127.0.0.1
-  #      - 1.1.1.1
-  #    restart: always
-
-
   prometheus:
     depends_on:
       - prom-push-gw
       - prom-node-exporter
-    image: alexswilliams/arm32v6-prometheus:2.11.1-alpine-3.10.0
+    image: alexswilliams/arm32v6-prometheus:2.11.2-alpine-3.10.1
     restart: always
     volumes:
       - "./config/prometheus.yml:/etc/prometheus/prometheus.yml"
@@ -63,7 +42,7 @@ services:
       - "9090:9090"
 
   prom-push-gw:
-    image: alexswilliams/arm32v6-prometheus-push-gateway:0.8.0-alpine-3.10.0
+    image: alexswilliams/arm32v6-prometheus-push-gateway:0.9.1-alpine-3.10.1
     restart: always
     expose:
       - "9091"
@@ -71,7 +50,7 @@ services:
       - "9091:9091"
 
   prom-node-exporter:
-    image: alexswilliams/arm32v6-prometheus-node-exporter:0.18.1-alpine-3.10.0
+    image: alexswilliams/arm32v6-prometheus-node-exporter:0.18.1-alpine-3.10.1
     restart: always
     user: root
     privileged: true
@@ -103,7 +82,7 @@ services:
   #      TPLINK_HOST: "192.168.1.30"
   #      PUSH_GW_URL: "http://prom-push-gw:9091/metrics/job/tplink-scraper-1"
 
-  tplink-scraper-c:
+  tplink-scraper-heater:
     depends_on:
       - prom-push-gw
     build:
@@ -116,6 +95,20 @@ services:
       PUSH_GW_HOST: "prom-push-gw"
       PUSH_GW_PORT: "9091"
       PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-1"
+
+  tplink-scraper-desk:
+    depends_on:
+      - prom-push-gw
+    build:
+      context: ./tplink-hs110-client-c
+      dockerfile: Dockerfile.arm32v6
+    restart: always
+    environment:
+      POLL_TIME_MILLIS: "5000"
+      TPLINK_HOST: "192.168.1.35"
+      PUSH_GW_HOST: "prom-push-gw"
+      PUSH_GW_PORT: "9091"
+      PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-2"
 
 volumes:
   prometheus-volume:
