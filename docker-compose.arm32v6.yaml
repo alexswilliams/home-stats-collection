@@ -13,7 +13,7 @@ services:
       - "53:53/udp"
 
   nginx:
-    image: arm32v6/nginx:1.17.3-alpine
+    image: arm32v6/nginx:1.17.2-alpine
     restart: always
     volumes:
       - "./config/nginx/403.html:/usr/share/nginx/html/403.html"
