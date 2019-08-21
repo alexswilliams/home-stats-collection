@@ -33,9 +33,7 @@ services:
     cap_add:
       - NET_RAW
     volumes:
-      - type: bind
-        source: ./config/telegraf.conf
-        target: /etc/telegraf/telegraf.conf
+      - "./config/telegraf.conf:/etc/telegraf/telegraf.conf"
 
 
   prometheus:
