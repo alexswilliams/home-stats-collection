@@ -25,10 +25,9 @@ services:
 
 
   telegraf:
-    image: telegraf:1.11.3-alpine
+    image: alexswilliams/arm32v6-telegraf:1.11.4-alpine-3.10.2
+    restart: always
     ports:
-      - "8125:8125"
-      - "8094:8094"
       - "9273:9273"
     cap_add:
       - NET_RAW
@@ -40,7 +39,7 @@ services:
     depends_on:
       - prom-push-gw
       - prom-node-exporter
-    image: alexswilliams/arm32v6-prometheus:2.11.2-alpine-3.10.1
+    image: alexswilliams/arm32v6-prometheus:2.12.0-alpine-3.10.2
     restart: always
     volumes:
       - "./config/prometheus.yml:/etc/prometheus/prometheus.yml"
@@ -54,7 +53,7 @@ services:
       - "9090:9090"
 
   prom-push-gw:
-    image: alexswilliams/arm32v6-prometheus-push-gateway:0.9.1-alpine-3.10.1
+    image: alexswilliams/arm32v6-prometheus-push-gateway:0.9.1-alpine-3.10.2
     restart: always
     expose:
       - "9091"
@@ -62,7 +61,7 @@ services:
       - "9091:9091"
 
   prom-node-exporter:
-    image: alexswilliams/arm32v6-prometheus-node-exporter:0.18.1-alpine-3.10.1
+    image: alexswilliams/arm32v6-prometheus-node-exporter:0.18.1-alpine-3.10.2
     restart: always
     user: root
     privileged: true
