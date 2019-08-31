@@ -74,7 +74,7 @@ services:
       NODE_EXP_PATH_PROCFS: /host/procfs
       NODE_EXP_PATH_ROOTFS: /host/rootfs
       NODE_EXP_PATH_SYSFS: /host/sysfs
-      NODE_EXP_COLLECTOR_FILESYSTEM_IGNORED_MOUNT_POINTS: ^/(sys|proc|dev|host|etc|var/lib/docker.+)($$|/)
+      NODE_EXP_COLLECTOR_FILESYSTEM_IGNORED_MOUNT_POINTS: ^/(sys|proc|run|dev|host|etc|var/lib/docker.+)($$|/)
       NODE_EXP_WEB_LISTEN_ADDRESS: ":9100"
     expose:
       - "9100"
