@@ -93,7 +93,7 @@ services:
   #      TPLINK_HOST: "192.168.1.30"
   #      PUSH_GW_URL: "http://prom-push-gw:9091/metrics/job/tplink-scraper-1"
 
-  tplink-scraper-heater:
+  tplink-scraper-bedroom-heater:
     depends_on:
       - prom-push-gw
     build:
@@ -105,9 +105,9 @@ services:
       TPLINK_HOST: "192.168.1.30"
       PUSH_GW_HOST: "prom-push-gw"
       PUSH_GW_PORT: "9091"
-      PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-1"
+      PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-bedroom-heater"
 
-  tplink-scraper-desk:
+  tplink-scraper-bedroom-desk:
     depends_on:
       - prom-push-gw
     build:
@@ -119,7 +119,35 @@ services:
       TPLINK_HOST: "192.168.1.35"
       PUSH_GW_HOST: "prom-push-gw"
       PUSH_GW_PORT: "9091"
-      PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-2"
+      PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-bedroom-desk"
+
+  tplink-scraper-router:
+    depends_on:
+      - prom-push-gw
+    build:
+      context: ./tplink-hs110-client-c
+      dockerfile: Dockerfile.arm32v6
+    restart: always
+    environment:
+      POLL_TIME_MILLIS: "5000"
+      TPLINK_HOST: "192.168.1.38"
+      PUSH_GW_HOST: "prom-push-gw"
+      PUSH_GW_PORT: "9091"
+      PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-router"
+
+  tplink-scraper-living-room-av:
+    depends_on:
+      - prom-push-gw
+    build:
+      context: ./tplink-hs110-client-c
+      dockerfile: Dockerfile.arm32v6
+    restart: always
+    environment:
+      POLL_TIME_MILLIS: "5000"
+      TPLINK_HOST: "192.168.1.37"
+      PUSH_GW_HOST: "prom-push-gw"
+      PUSH_GW_PORT: "9091"
+      PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-living-room-av"
 
 volumes:
   prometheus-volume:
