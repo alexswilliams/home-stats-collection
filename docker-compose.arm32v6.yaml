@@ -35,22 +35,22 @@ services:
       - "./config/telegraf.conf:/etc/telegraf/telegraf.conf"
 
 
-  prometheus:
-    depends_on:
-      - prom-push-gw
-      - prom-node-exporter
-    image: alexswilliams/arm32v6-prometheus:2.12.0-alpine-3.10.2
-    restart: always
-    volumes:
-      - "./config/prometheus.yml:/etc/prometheus/prometheus.yml"
-      - "prometheus-volume:/etc/prometheus/data"
-    environment:
-      PROM_STORAGE_TSDB_RETENTION_TIME: "1y"
-      PROM_STORAGE_TSDB_RETENTION_SIZE: "5GB"
-    expose:
-      - "9090"
-    ports:
-      - "9090:9090"
+  # prometheus:
+  #   depends_on:
+  #     - prom-push-gw
+  #     - prom-node-exporter
+  #   image: alexswilliams/arm32v6-prometheus:2.12.0-alpine-3.10.2
+  #   restart: always
+  #   volumes:
+  #     - "./config/prometheus.yml:/etc/prometheus/prometheus.yml"
+  #     - "prometheus-volume:/etc/prometheus/data"
+  #   environment:
+  #     PROM_STORAGE_TSDB_RETENTION_TIME: "1y"
+  #     PROM_STORAGE_TSDB_RETENTION_SIZE: "5GB"
+  #   expose:
+  #     - "9090"
+  #   ports:
+  #     - "9090:9090"
 
   prom-push-gw:
     image: alexswilliams/arm32v6-prometheus-push-gateway:0.9.1-alpine-3.10.2
