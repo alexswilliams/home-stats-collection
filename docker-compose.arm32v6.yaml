@@ -25,7 +25,7 @@ services:
 
 
   telegraf:
-    image: alexswilliams/arm32v6-telegraf:1.11.4-alpine-3.10.2
+    image: alexswilliams/arm32v6-telegraf:1.12.2-alpine-3.10.2
     restart: always
     ports:
       - "9273:9273"
