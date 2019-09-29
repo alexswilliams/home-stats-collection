@@ -149,6 +149,34 @@ services:
       PUSH_GW_PORT: "9091"
       PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-living-room-av"
 
+  tplink-scraper-washing-machine:
+    depends_on:
+      - prom-push-gw
+    build:
+      context: ./tplink-hs110-client-c
+      dockerfile: Dockerfile.arm32v6
+    restart: always
+    environment:
+      POLL_TIME_MILLIS: "30000"
+      TPLINK_HOST: "192.168.1.211"
+      PUSH_GW_HOST: "prom-push-gw"
+      PUSH_GW_PORT: "9091"
+      PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-washing-machine"
+
+  tplink-scraper-microwave:
+    depends_on:
+      - prom-push-gw
+    build:
+      context: ./tplink-hs110-client-c
+      dockerfile: Dockerfile.arm32v6
+    restart: always
+    environment:
+      POLL_TIME_MILLIS: "30000"
+      TPLINK_HOST: "192.168.1.210"
+      PUSH_GW_HOST: "prom-push-gw"
+      PUSH_GW_PORT: "9091"
+      PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-microwave"
+
 volumes:
   prometheus-volume:
 
