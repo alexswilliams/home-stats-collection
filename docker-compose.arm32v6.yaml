@@ -2,7 +2,7 @@ version: '2'
 services:
 
   coredns:
-    image: coredns/coredns:1.6.2
+    image: coredns/coredns:1.6.4
     restart: always
     volumes:
       - "./config/coredns/:/db/"
@@ -13,7 +13,7 @@ services:
       - "53:53/udp"
 
   nginx:
-    image: arm32v6/nginx:1.17.2-alpine
+    image: arm32v6/nginx:1.17.4-alpine
     restart: always
     volumes:
       - "./config/nginx/403.html:/usr/share/nginx/html/403.html"
@@ -25,7 +25,7 @@ services:
 
 
   telegraf:
-    image: alexswilliams/arm32v6-telegraf:1.12.2-alpine-3.10.2
+    image: alexswilliams/arm32v6-telegraf:1.12.3-alpine-3.10.2
     restart: always
     ports:
       - "9273:9273"
@@ -39,7 +39,7 @@ services:
   #   depends_on:
   #     - prom-push-gw
   #     - prom-node-exporter
-  #   image: alexswilliams/arm32v6-prometheus:2.12.0-alpine-3.10.2
+  #   image: alexswilliams/arm32v6-prometheus:2.13.0-alpine-3.10.2
   #   restart: always
   #   volumes:
   #     - "./config/prometheus.yml:/etc/prometheus/prometheus.yml"
@@ -53,7 +53,7 @@ services:
   #     - "9090:9090"
 
   prom-push-gw:
-    image: alexswilliams/arm32v6-prometheus-push-gateway:0.9.1-alpine-3.10.2
+    image: alexswilliams/arm32v6-prometheus-push-gateway:0.10.0-alpine-3.10.2
     restart: always
     expose:
       - "9091"
