@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 PUSH_ADDRESS="http://prom-push-gw:9091/metrics/job/wemo-scraper"
 TEMP_FILE="/tmp/out.txt"

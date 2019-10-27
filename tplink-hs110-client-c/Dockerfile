@@ -1,4 +1,4 @@
-FROM alpine:3.10.1 as build
+FROM alpine:3.10.3 as build
 RUN apk --no-cache add build-base cmake wget tar binutils
 
 ARG CJSON_VERSION=1.7.12
