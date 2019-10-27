@@ -26,7 +26,7 @@ RUN cd /build/app && \
     ldd ./tplink-hs110-client || true
 
 
-FROM scratch
+FROM arm32v6/alpine:3.10.3
 WORKDIR /app
 COPY --from=build /build/app/cmake-build/tplink-hs110-client ./
 
