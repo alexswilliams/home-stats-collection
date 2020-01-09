@@ -1,4 +1,4 @@
-FROM arm32v6/golang:1.13.3-alpine3.10 as build
+FROM arm32v6/golang:1.13.5-alpine3.11 as build
 WORKDIR /go/src/app
 COPY src ./
 RUN CGO_ENABLED=0 go build -o scraper -ldflags="-s -w" -tags netgo -a ./main
