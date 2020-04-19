@@ -2,7 +2,7 @@ version: '3.7'
 services:
 
   coredns:
-    image: coredns/coredns:1.6.6
+    image: coredns/coredns:1.6.9
     restart: always
     volumes:
       - "./config/coredns/:/db/"
@@ -13,7 +13,7 @@ services:
       - "53:53/udp"
 
   nginx:
-    image: arm32v6/nginx:1.17.7-alpine
+    image: arm32v6/nginx:1.17.10-alpine
     restart: always
     volumes:
       - "./config/nginx/403.html:/usr/share/nginx/html/403.html"
@@ -25,7 +25,7 @@ services:
 
 
   telegraf:
-    image: alexswilliams/arm32v6-telegraf:1.13.1-alpine-3.11.2
+    image: alexswilliams/arm32v6-telegraf:1.14.1-alpine-3.11.5
     restart: always
     ports:
       - "9273:9273"
@@ -39,7 +39,7 @@ services:
   #   depends_on:
   #     - prom-push-gw
   #     - prom-node-exporter
-  #   image: alexswilliams/arm32v6-prometheus:2.15.2-alpine-3.11.2
+  #   image: alexswilliams/arm32v6-prometheus:2.17.1-alpine-3.11.5
   #   restart: always
   #   volumes:
   #     - "./config/prometheus.yml:/etc/prometheus/prometheus.yml"
@@ -53,7 +53,7 @@ services:
   #     - "9090:9090"
 
   prom-push-gw:
-    image: alexswilliams/arm32v6-prometheus-push-gateway:1.0.1-alpine-3.11.2
+    image: alexswilliams/arm32v6-prometheus-push-gateway:1.2.0-alpine-3.11.5
     restart: always
     expose:
       - "9091"
@@ -61,7 +61,7 @@ services:
       - "9091:9091"
 
   prom-node-exporter:
-    image: alexswilliams/arm32v6-prometheus-node-exporter:0.18.1-alpine-3.11.2
+    image: alexswilliams/arm32v6-prometheus-node-exporter:0.18.1-alpine-3.11.5
     restart: always
     user: root
     privileged: true
@@ -74,13 +74,12 @@ services:
       NODE_EXP_PATH_PROCFS: /host/procfs
       NODE_EXP_PATH_ROOTFS: /host/rootfs
       NODE_EXP_PATH_SYSFS: /host/sysfs
-      NODE_EXP_COLLECTOR_FILESYSTEM_IGNORED_MOUNT_POINTS: ^/(sys|proc|run|dev|host|etc|var/lib/docker.+)($$|/)
       NODE_EXP_WEB_LISTEN_ADDRESS: ":9100"
+      NODE_EXP_WEB_DISABLE_EXPORTER_METRICS: "true"
     expose:
       - "9100"
     ports:
       - "9100:9100"
-    command: "--web.disable-exporter-metrics"
 
   #  tplink-scraper:
   #    depends_on:
@@ -96,9 +95,7 @@ services:
   tplink-scraper-bedroom-heater:
     depends_on:
       - prom-push-gw
-    build:
-      context: ./tplink-hs110-client-c
-      dockerfile: Dockerfile.arm32v6
+    image: alexswilliams/tplink-hs110-prometheus-client
     restart: always
     environment:
       POLL_TIME_MILLIS: "5000"
@@ -110,9 +107,7 @@ services:
   tplink-scraper-bedroom-desk:
     depends_on:
       - prom-push-gw
-    build:
-      context: ./tplink-hs110-client-c
-      dockerfile: Dockerfile.arm32v6
+    image: alexswilliams/tplink-hs110-prometheus-client
     restart: always
     environment:
       POLL_TIME_MILLIS: "5000"
@@ -124,9 +119,7 @@ services:
   tplink-scraper-router:
     depends_on:
       - prom-push-gw
-    build:
-      context: ./tplink-hs110-client-c
-      dockerfile: Dockerfile.arm32v6
+    image: alexswilliams/tplink-hs110-prometheus-client
     restart: always
     environment:
       POLL_TIME_MILLIS: "5000"
@@ -138,9 +131,7 @@ services:
   tplink-scraper-living-room-av:
     depends_on:
       - prom-push-gw
-    build:
-      context: ./tplink-hs110-client-c
-      dockerfile: Dockerfile.arm32v6
+    image: alexswilliams/tplink-hs110-prometheus-client
     restart: always
     environment:
       POLL_TIME_MILLIS: "5000"
@@ -152,9 +143,7 @@ services:
   tplink-scraper-washing-machine:
     depends_on:
       - prom-push-gw
-    build:
-      context: ./tplink-hs110-client-c
-      dockerfile: Dockerfile.arm32v6
+    image: alexswilliams/tplink-hs110-prometheus-client
     restart: always
     environment:
       POLL_TIME_MILLIS: "30000"
@@ -166,9 +155,7 @@ services:
   tplink-scraper-microwave:
     depends_on:
       - prom-push-gw
-    build:
-      context: ./tplink-hs110-client-c
-      dockerfile: Dockerfile.arm32v6
+    image: alexswilliams/tplink-hs110-prometheus-client
     restart: always
     environment:
       POLL_TIME_MILLIS: "30000"
