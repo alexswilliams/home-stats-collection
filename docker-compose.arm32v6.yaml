@@ -2,7 +2,7 @@ version: '3.7'
 services:
 
   coredns:
-    image: coredns/coredns:1.6.9
+    image: coredns/coredns:1.7.0
     restart: always
     read_only: true
     volumes:
@@ -14,7 +14,7 @@ services:
       - "53:53/udp"
 
   nginx:
-    image: arm32v6/nginx:1.18.0-alpine
+    image: arm32v6/nginx:1.19.1-alpine
     restart: always
     read_only: true
     volumes:
@@ -27,7 +27,7 @@ services:
 
 
   telegraf:
-    image: alexswilliams/arm32v6-telegraf:1.14.3-alpine-3.12.0
+    image: alexswilliams/arm32v6-telegraf:1.14.5-alpine-3.12.0
     restart: always
     read_only: true
     ports:
@@ -42,7 +42,7 @@ services:
   #   depends_on:
   #     - prom-push-gw
   #     - prom-node-exporter
-  #   image: alexswilliams/arm32v6-prometheus:2.18.1-alpine-3.12.0
+  #   image: alexswilliams/arm32v6-prometheus:2.19.2-alpine-3.12.0
   #   restart: always
   #   volumes:
   #     - "./config/prometheus.yml:/etc/prometheus/prometheus.yml"
@@ -65,7 +65,7 @@ services:
       - "9091:9091"
 
   prom-node-exporter:
-    image: alexswilliams/arm32v6-prometheus-node-exporter:1.0.0-alpine-3.12.0
+    image: alexswilliams/arm32v6-prometheus-node-exporter:1.0.1-alpine-3.12.0
     restart: always
     user: root
     privileged: true
