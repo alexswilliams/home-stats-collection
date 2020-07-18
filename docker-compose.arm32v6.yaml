@@ -97,20 +97,20 @@ services:
   #      TPLINK_HOST: "192.168.1.30"
   #      PUSH_GW_URL: "http://prom-push-gw:9091/metrics/job/tplink-scraper-1"
 
-  tplink-scraper-bedroom-heater:
-    depends_on:
-      - prom-push-gw
-    image: alexswilliams/tplink-hs110-prometheus-client
-    restart: always
-    read_only: true
-    environment:
-      POLL_TIME_MILLIS: "5000"
-      TPLINK_HOST: "192.168.1.30"
-      PUSH_GW_HOST: "prom-push-gw"
-      PUSH_GW_PORT: "9091"
-      PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-bedroom-heater"
+  # tplink-scraper-bedroom-heater:
+  #   depends_on:
+  #     - prom-push-gw
+  #   image: alexswilliams/tplink-hs110-prometheus-client
+  #   restart: always
+  #   read_only: true
+  #   environment:
+  #     POLL_TIME_MILLIS: "5000"
+  #     TPLINK_HOST: "192.168.1.30"
+  #     PUSH_GW_HOST: "prom-push-gw"
+  #     PUSH_GW_PORT: "9091"
+  #     PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-bedroom-heater"
 
-  tplink-scraper-bedroom-desk:
+  tplink-scraper-aircon:
     depends_on:
       - prom-push-gw
     image: alexswilliams/tplink-hs110-prometheus-client
@@ -118,12 +118,12 @@ services:
     read_only: true
     environment:
       POLL_TIME_MILLIS: "5000"
-      TPLINK_HOST: "192.168.1.35"
+      TPLINK_HOST: "192.168.1.63"
       PUSH_GW_HOST: "prom-push-gw"
       PUSH_GW_PORT: "9091"
-      PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-bedroom-desk"
+      PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-aircon"
 
-  tplink-scraper-router:
+  tplink-scraper-pc-desk:
     depends_on:
       - prom-push-gw
     image: alexswilliams/tplink-hs110-prometheus-client
@@ -131,23 +131,36 @@ services:
     read_only: true
     environment:
       POLL_TIME_MILLIS: "5000"
-      TPLINK_HOST: "192.168.1.38"
+      TPLINK_HOST: "192.168.1.62"
       PUSH_GW_HOST: "prom-push-gw"
       PUSH_GW_PORT: "9091"
-      PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-router"
+      PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-pc-desk"
 
-  tplink-scraper-living-room-av:
-    depends_on:
-      - prom-push-gw
-    image: alexswilliams/tplink-hs110-prometheus-client
-    restart: always
-    read_only: true
-    environment:
-      POLL_TIME_MILLIS: "5000"
-      TPLINK_HOST: "192.168.1.37"
-      PUSH_GW_HOST: "prom-push-gw"
-      PUSH_GW_PORT: "9091"
-      PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-living-room-av"
+  # tplink-scraper-router:
+  #   depends_on:
+  #     - prom-push-gw
+  #   image: alexswilliams/tplink-hs110-prometheus-client
+  #   restart: always
+  #   read_only: true
+  #   environment:
+  #     POLL_TIME_MILLIS: "5000"
+  #     TPLINK_HOST: "192.168.1.38"
+  #     PUSH_GW_HOST: "prom-push-gw"
+  #     PUSH_GW_PORT: "9091"
+  #     PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-router"
+
+  # tplink-scraper-living-room-av:
+  #   depends_on:
+  #     - prom-push-gw
+  #   image: alexswilliams/tplink-hs110-prometheus-client
+  #   restart: always
+  #   read_only: true
+  #   environment:
+  #     POLL_TIME_MILLIS: "5000"
+  #     TPLINK_HOST: "192.168.1.37"
+  #     PUSH_GW_HOST: "prom-push-gw"
+  #     PUSH_GW_PORT: "9091"
+  #     PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-living-room-av"
 
   tplink-scraper-washing-machine:
     depends_on:
@@ -157,23 +170,23 @@ services:
     read_only: true
     environment:
       POLL_TIME_MILLIS: "30000"
-      TPLINK_HOST: "192.168.1.211"
+      TPLINK_HOST: "192.168.1.64"
       PUSH_GW_HOST: "prom-push-gw"
       PUSH_GW_PORT: "9091"
       PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-washing-machine"
 
-  tplink-scraper-microwave:
-    depends_on:
-      - prom-push-gw
-    image: alexswilliams/tplink-hs110-prometheus-client
-    restart: always
-    read_only: true
-    environment:
-      POLL_TIME_MILLIS: "30000"
-      TPLINK_HOST: "192.168.1.210"
-      PUSH_GW_HOST: "prom-push-gw"
-      PUSH_GW_PORT: "9091"
-      PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-microwave"
+  # tplink-scraper-microwave:
+  #   depends_on:
+  #     - prom-push-gw
+  #   image: alexswilliams/tplink-hs110-prometheus-client
+  #   restart: always
+  #   read_only: true
+  #   environment:
+  #     POLL_TIME_MILLIS: "30000"
+  #     TPLINK_HOST: "192.168.1.210"
+  #     PUSH_GW_HOST: "prom-push-gw"
+  #     PUSH_GW_PORT: "9091"
+  #     PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-microwave"
 
 # volumes:
 #   prometheus-volume:
