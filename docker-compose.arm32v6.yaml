@@ -175,6 +175,19 @@ services:
       PUSH_GW_PORT: "9091"
       PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-washing-machine"
 
+  tplink-scraper-kettle:
+    depends_on:
+      - prom-push-gw
+    image: alexswilliams/tplink-hs110-prometheus-client
+    restart: always
+    read_only: true
+    environment:
+      POLL_TIME_MILLIS: "30000"
+      TPLINK_HOST: "192.168.1.68"
+      PUSH_GW_HOST: "prom-push-gw"
+      PUSH_GW_PORT: "9091"
+      PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-kettle"
+
   # tplink-scraper-microwave:
   #   depends_on:
   #     - prom-push-gw
