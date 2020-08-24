@@ -14,7 +14,7 @@ services:
       - "53:53/udp"
 
   nginx:
-    image: arm32v6/nginx:1.19.1-alpine
+    image: arm32v6/nginx:1.19.2-alpine
     restart: always
     read_only: true
     volumes:
@@ -27,7 +27,7 @@ services:
 
 
   telegraf:
-    image: alexswilliams/arm32v6-telegraf:1.14.5-alpine-3.12.0
+    image: alexswilliams/arm32v6-telegraf:1.15.2-alpine-3.12.0
     restart: always
     read_only: true
     ports:
@@ -42,7 +42,7 @@ services:
   #   depends_on:
   #     - prom-push-gw
   #     - prom-node-exporter
-  #   image: alexswilliams/arm32v6-prometheus:2.19.2-alpine-3.12.0
+  #   image: alexswilliams/arm32v6-prometheus:2.20.1-alpine-3.12.0
   #   restart: always
   #   volumes:
   #     - "./config/prometheus.yml:/etc/prometheus/prometheus.yml"
@@ -86,29 +86,18 @@ services:
     ports:
       - "9100:9100"
 
-  #  tplink-scraper:
-  #    depends_on:
-  #      - prom-push-gw
-  #    build:
-  #      context: ./tplink-hs110-client
-  #      dockerfile: Dockerfile.arm32v6
-  #    environment:
-  #      POLL_TIME_SECONDS: "5"
-  #      TPLINK_HOST: "192.168.1.30"
-  #      PUSH_GW_URL: "http://prom-push-gw:9091/metrics/job/tplink-scraper-1"
-
-  # tplink-scraper-bedroom-heater:
-  #   depends_on:
-  #     - prom-push-gw
-  #   image: alexswilliams/tplink-hs110-prometheus-client
-  #   restart: always
-  #   read_only: true
-  #   environment:
-  #     POLL_TIME_MILLIS: "5000"
-  #     TPLINK_HOST: "192.168.1.30"
-  #     PUSH_GW_HOST: "prom-push-gw"
-  #     PUSH_GW_PORT: "9091"
-  #     PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-bedroom-heater"
+  tplink-scraper-bedroom-heater:
+    depends_on:
+      - prom-push-gw
+    image: alexswilliams/tplink-hs110-prometheus-client
+    restart: always
+    read_only: true
+    environment:
+      POLL_TIME_MILLIS: "5000"
+      TPLINK_HOST: "192.168.1.70"
+      PUSH_GW_HOST: "prom-push-gw"
+      PUSH_GW_PORT: "9091"
+      PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-bedroom-heater"
 
   tplink-scraper-aircon:
     depends_on:
@@ -136,31 +125,18 @@ services:
       PUSH_GW_PORT: "9091"
       PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-pc-desk"
 
-  # tplink-scraper-router:
-  #   depends_on:
-  #     - prom-push-gw
-  #   image: alexswilliams/tplink-hs110-prometheus-client
-  #   restart: always
-  #   read_only: true
-  #   environment:
-  #     POLL_TIME_MILLIS: "5000"
-  #     TPLINK_HOST: "192.168.1.38"
-  #     PUSH_GW_HOST: "prom-push-gw"
-  #     PUSH_GW_PORT: "9091"
-  #     PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-router"
-
-  # tplink-scraper-living-room-av:
-  #   depends_on:
-  #     - prom-push-gw
-  #   image: alexswilliams/tplink-hs110-prometheus-client
-  #   restart: always
-  #   read_only: true
-  #   environment:
-  #     POLL_TIME_MILLIS: "5000"
-  #     TPLINK_HOST: "192.168.1.37"
-  #     PUSH_GW_HOST: "prom-push-gw"
-  #     PUSH_GW_PORT: "9091"
-  #     PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-living-room-av"
+  tplink-scraper-living-room-av:
+    depends_on:
+      - prom-push-gw
+    image: alexswilliams/tplink-hs110-prometheus-client
+    restart: always
+    read_only: true
+    environment:
+      POLL_TIME_MILLIS: "5000"
+      TPLINK_HOST: "192.168.1.69"
+      PUSH_GW_HOST: "prom-push-gw"
+      PUSH_GW_PORT: "9091"
+      PUSH_GW_ENDPOINT: "/metrics/job/tplink-scraper-living-room-av"
 
   tplink-scraper-washing-machine:
     depends_on:
